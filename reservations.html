@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Reservations</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">My Reservations</h1>
+    <div id="reservations-container" class="space-y-6"></div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // 🔧 Your Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCJhR3gN-2NIDEdSO-GMkwEl3OlF1iNPgA",
+      authDomain: "hotelulu-12fe1.firebaseapp.com",
+      projectId: "hotelulu-12fe1",
+      storageBucket: "hotelulu-12fe1.firebasestorage.app",
+      messagingSenderId: "552939216628",
+      appId: "1:552939216628:web:b7a90b570ecd94b26608a1",
+      measurementId: "G-K1F4PGZN8F"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore();
+
+    const container = document.getElementById("reservations-container");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        container.innerHTML = `
+          <p class="bg-red-100 text-red-700 p-4 rounded">Please <a href="login.html" class="text-blue-500 underline">log in</a> to view your reservations.</p>
+        `;
+        return;
+      }
+
+      const q = query(collection(db, "bookings"), where("userId", "==", user.uid));
+
+
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        container.innerHTML = `<p class="text-gray-600">You have no reservations yet.</p>`;
+        return;
+      }
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        const div = document.createElement("div");
+        div.className = "bg-white p-6 rounded shadow";
+        div.innerHTML = `
+          <h2 class="text-xl font-semibold mb-2">${data.roomType}</h2>
+          <p><strong>Check-in:</strong> ${data.checkIn}</p>
+          <p><strong>Check-out:</strong> ${data.checkOut}</p>
+          <p><strong>Guests:</strong> ${data.adults} Adults, ${data.children} Children</p>
+          <p><strong>Special Requests:</strong> ${data.specialRequests || "None"}</p>
+          <p class="text-sm text-gray-500 mt-2">Booking ID: ${doc.id}</p>
+        `;
+        container.appendChild(div);
+      });
+    });
+  </script>
+</body>
+</html>

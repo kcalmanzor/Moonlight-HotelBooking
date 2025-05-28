@@ -1,0 +1,767 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moonlight Hotel Booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom CSS for animations and effects */
+        .hero-image {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 80vh;
+            transition: all 0.5s ease;
+        }
+        
+        .room-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #f59e0b;
+            transition: width .3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .active-nav::after {
+            width: 100%;
+        }
+        
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Datepicker styling */
+        .datepicker {
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center" onclick="showPage('home')">
+                        <i class="fas fa-hotel text-amber-500 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold text-gray-800">Moonlight Hotel Booking</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#" class="nav-link text-gray-700 hover:text-amber-500 px-3 py-2 font-medium" onclick="showPage('home')">Home</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-amber-500 px-3 py-2 font-medium" onclick="showPage('booking')">Book Now</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-amber-500 px-3 py-2 font-medium" onclick="showPage('contact')">Contact</a>
+                    <a href="reservations.html" class="text-gray-700 hover:text-amber-500 px-3 py-2 font-medium">
+  My Reservations
+</a>
+
+                
+             
+  <button id="loginBtn" onclick="window.location.href='login.html'" class="text-gray-700 hover:text-amber-500 font-medium">Login</button>
+  <button id="logoutBtn" class="hidden bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded font-medium">Logout</button>
+</div>
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-gray-500 hover:text-gray-900 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-500 hover:bg-gray-50" onclick="showPage('home')">Home</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-500 hover:bg-gray-50" onclick="showPage('booking')">Book Now</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-500 hover:bg-gray-50" onclick="showPage('contact')">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div id="page-content">
+        <!-- Home Page -->
+        <div id="home" class="page fade-in">
+            <!-- Hero Section -->
+            <div class="hero-image flex items-center justify-center">
+                <div class="text-center px-4">
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">Experience Unmatched Luxury</h1>
+                    <p class="text-xl md:text-2xl text-white mb-8">Your perfect getaway starts at Moonlight Hotel Booking</p>
+                    <button onclick="showPage('booking')" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105">
+                        Book Your Stay
+                    </button>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="max-w-7xl mx-auto px-4 py-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Welcome to Moonlight Hotel Booking</h2>
+                    <div class="w-24 h-1 bg-amber-500 mx-auto mb-6"></div>
+                    <p class="text-gray-600 max-w-3xl mx-auto">
+                        Nestled in the heart of the city, Moonlight Hotel Booking offers an unparalleled experience of comfort and elegance. 
+                        Our award-winning service and exquisite accommodations will make your stay unforgettable.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-xl transition duration-300">
+                        <i class="fas fa-concierge-bell text-4xl text-amber-500 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Premium Service</h3>
+                        <p class="text-gray-600">24/7 concierge service to cater to your every need during your stay.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-xl transition duration-300">
+                        <i class="fas fa-utensils text-4xl text-amber-500 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Gourmet Dining</h3>
+                        <p class="text-gray-600">World-class restaurants offering local and international cuisine.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-xl transition duration-300">
+                        <i class="fas fa-spa text-4xl text-amber-500 mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Spa & Wellness</h3>
+                        <p class="text-gray-600">Rejuvenate your senses with our luxurious spa treatments.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rooms Section -->
+            <div class="bg-gray-100 py-16">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Our Accommodations</h2>
+                        <div class="w-24 h-1 bg-amber-500 mx-auto mb-6"></div>
+                        <p class="text-gray-600 max-w-3xl mx-auto">
+                            Choose from our selection of meticulously designed rooms and suites, each offering a unique blend of comfort and style.
+                        </p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="room-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <img src="https://www.peninsula.com/en/-/media/pbk/rooms/deluxe-room-twin-bed.jpg?mw=905&hash=9515693D3D8455DE1F48031E23A9C6BA" alt="Deluxe Room" class="w-full h-64 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2">Deluxe Room</h3>
+                                <p class="text-gray-600 mb-4">Spacious rooms with premium amenities and stunning city views.</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-amber-500 font-bold">₱5000/night</span>
+                                    <button onclick="showPage('booking')" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded transition duration-300">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="room-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <img src="https://images.unsplash.com/photo-1596178065887-1198b6148b2b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Executive Suite" class="w-full h-64 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2">Executive Suite</h3>
+                                <p class="text-gray-600 mb-4">Luxurious suites with separate living area and premium services.</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-amber-500 font-bold">₱8000/night</span>
+                                    <button onclick="showPage('booking')" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded transition duration-300">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="room-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <img src="https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/125/2024/01/11070847/DSC_8653-1-e1704957038942.jpg" alt="Presidential Suite" class="w-full h-64 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2">Presidential Suite</h3>
+                                <p class="text-gray-600 mb-4">The ultimate in luxury with panoramic views and exclusive amenities.</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-amber-500 font-bold">₱10000/night</span>
+                                    <button onclick="showPage('booking')" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded transition duration-300">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-12">
+                        <button onclick="showPage('booking')" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105">
+                            View All Rooms
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Amenities Section -->
+            <div class="max-w-7xl mx-auto px-4 py-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Hotel Amenities</h2>
+                    <div class="w-24 h-1 bg-amber-500 mx-auto mb-6"></div>
+                </div>
+                
+                <div class="grid md:grid-cols-4 gap-6">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-swimming-pool text-2xl text-amber-500"></i>
+                        <span>Infinity Pool</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-wifi text-2xl text-amber-500"></i>
+                        <span>High-Speed WiFi</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-dumbbell text-2xl text-amber-500"></i>
+                        <span>Fitness Center</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-parking text-2xl text-amber-500"></i>
+                        <span>Valet Parking</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-umbrella-beach text-2xl text-amber-500"></i>
+                        <span>Private Beach</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-cocktail text-2xl text-amber-500"></i>
+                        <span>Rooftop Bar</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-business-time text-2xl text-amber-500"></i>
+                        <span>Business Center</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-child text-2xl text-amber-500"></i>
+                        <span>Kids Club</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Page -->
+        <div id="booking" class="page hidden fade-in">
+            <div class="max-w-7xl mx-auto px-4 py-12">
+                <div class="text-center mb-12">
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Book Your Stay</h1>
+                    <div class="w-24 h-1 bg-amber-500 mx-auto mb-6"></div>
+                    <p class="text-gray-600 max-w-2xl mx-auto">
+                        Reserve your perfect room with our easy booking system. Special requests? Our concierge team will ensure your stay is exactly as you imagine.
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div class="md:flex">
+                        <div class="md:w-1/2 p-8">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-6">Reservation Details</h2>
+                            
+                            <form id="booking-form" class="space-y-6">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="check-in" class="block text-sm font-medium text-gray-700 mb-1">Check-in Date</label>
+                                        <input type="date" id="check-in" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
+                                    </div>
+                                    <div>
+                                        <label for="check-out" class="block text-sm font-medium text-gray-700 mb-1">Check-out Date</label>
+                                        <input type="date" id="check-out" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
+                                    </div>
+                                </div>
+                                
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="adults" class="block text-sm font-medium text-gray-700 mb-1">Adults</label>
+                                        <select id="adults" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="children" class="block text-sm font-medium text-gray-700 mb-1">Children</label>
+                                        <select id="children" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
+                                            <option>0</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label for="room-type" class="block text-sm font-medium text-gray-700 mb-1">Room Type</label>
+                                    <select id="room-type" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500">
+                                        <option>Deluxe Room</option>
+                                        <option>Executive Suite</option>
+                                        <option>Presidential Suite</option>
+                                        <option>Ocean View Room</option>
+                                        <option>Family Suite</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label for="special-requests" class="block text-sm font-medium text-gray-700 mb-1">Special Requests</label>
+                                    <textarea id="special-requests" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500" placeholder="Any special requirements or preferences..."></textarea>
+                                </div>
+                                
+                                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 rounded-md transition duration-300">
+                                    Check Availability
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="md:w-1/2 bg-gray-100 p-8">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-6">Room Selection</h2>
+                            
+                            <div class="space-y-6">
+                                <div class="bg-white p-4 rounded-lg shadow-sm">
+                                    <div class="flex items-start">
+                                        <img src="https://www.peninsula.com/en/-/media/pbk/rooms/deluxe-room-twin-bed.jpg?mw=905&hash=9515693D3D8455DE1F48031E23A9C6BA" alt="Deluxe Room" class="w-24 h-24 object-cover rounded-md">
+                                        <div class="ml-4">
+                                            <h3 class="font-bold">Deluxe Room</h3>
+                                            <p class="text-sm text-gray-600 mb-2">Spacious rooms with premium amenities</p>
+                                            <div class="flex items-center text-sm text-amber-500 mb-2">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                            <p class="font-bold text-gray-800">₱5000 <span class="text-sm font-normal text-gray-600">/ night</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-4 rounded-lg shadow-sm">
+                                    <div class="flex items-start">
+                                        <img src="https://images.unsplash.com/photo-1596178065887-1198b6148b2b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Executive Suite" class="w-24 h-24 object-cover rounded-md">
+                                        <div class="ml-4">
+                                            <h3 class="font-bold">Executive Suite</h3>
+                                            <p class="text-sm text-gray-600 mb-2">Luxurious suites with separate living area</p>
+                                            <div class="flex items-center text-sm text-amber-500 mb-2">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                            <p class="font-bold text-gray-800">₱8000 <span class="text-sm font-normal text-gray-600">/ night</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white p-4 rounded-lg shadow-sm">
+                                    <div class="flex items-start">
+                                        <img src="https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/125/2024/01/11070847/DSC_8653-1-e1704957038942.jpg" alt="Presidential Suite" class="w-24 h-24 object-cover rounded-md">
+                                        <div class="ml-4">
+                                            <h3 class="font-bold">Presidential Suite</h3>
+                                            <p class="text-sm text-gray-600 mb-2">The ultimate in luxury with panoramic views</p>
+                                            <div class="flex items-center text-sm text-amber-500 mb-2">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                            <p class="font-bold text-gray-800">₱10000 <span class="text-sm font-normal text-gray-600">/ night</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-8 bg-white p-6 rounded-lg shadow-sm">
+                                <h3 class="font-bold text-lg mb-4">Why Book With Us?</h3>
+                                <ul class="space-y-3">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-amber-500 mt-1 mr-2"></i>
+                                        <span>Best price guarantee</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-amber-500 mt-1 mr-2"></i>
+                                        <span>No booking fees</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-amber-500 mt-1 mr-2"></i>
+                                        <span>Free cancellation up to 48 hours before check-in</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-amber-500 mt-1 mr-2"></i>
+                                        <span>24/7 customer support</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!-- Contact Page -->
+        <div id="contact" class="page hidden fade-in">
+            <div class="max-w-7xl mx-auto px-4 py-16">
+                <div class="text-center mb-12">
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Contact Us</h1>
+                    <div class="w-24 h-1 bg-amber-500 mx-auto mb-6"></div>
+                    <p class="text-gray-600 max-w-2xl mx-auto">
+                        We're here to help and answer any questions you might have. Reach out to us through any of the channels below.
+                    </p>
+                </div>
+                
+                <section class="py-12 px-4 md:px-8 lg:px-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-12 items-start">
+      
+      <!-- LEFT: Contact Form -->
+      <div>
+        <h2 class="text-2xl font-bold mb-6">Get In Touch</h2>
+        <form id="contact-form" class="space-y-6">
+          <div>
+            <label for="contact-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <input type="text" id="contact-name" class="w-full px-4 py-2 border border-gray-300 rounded-md" required>
+          </div>
+
+          <div>
+            <label for="contact-email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+            <input type="email" id="contact-email" class="w-full px-4 py-2 border border-gray-300 rounded-md" required>
+          </div>
+
+          <div>
+            <label for="contact-phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+            <input type="tel" id="contact-phone" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+          </div>
+
+          <div>
+            <label for="contact-subject" class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+            <select id="contact-subject" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+              <option>General Inquiry</option>
+              <option>Reservation Question</option>
+              <option>Special Request</option>
+              <option>Feedback</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="contact-message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+            <textarea id="contact-message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-md" required></textarea>
+          </div>
+
+          <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 rounded-md">
+            Send Message
+          </button>
+        </form>
+      </div>
+
+      <!-- RIGHT: Contact Info -->
+      <div class="space-y-6">
+        <h2 class="text-2xl font-bold mb-6">Contact Information</h2>
+
+        <div class="flex items-start space-x-4">
+          <span class="text-amber-500 text-2xl"><i class="fas fa-map-marker-alt"></i></span>
+          <div>
+            <p class="font-semibold">Address</p>
+            <p>Dasma Avenue<br>Salitran District<br>Cavite City</p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <span class="text-amber-500 text-2xl"><i class="fas fa-phone-alt"></i></span>
+          <div>
+            <p class="font-semibold">Phone</p>
+            <p>+63 (915) 365-7985<br>+63 (635) 256-5678 (24/7 concierge)</p>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-4">
+          <span class="text-amber-500 text-2xl"><i class="fas fa-envelope"></i></span>
+          <div>
+            <p class="font-semibold">Email</p>
+            <p>moonlight@booking.com<br>moonlight@hotel.com</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+ 
+  <div class="w-full">
+    
+  </div>
+</div>
+
+                        <div class="mt-8">
+                            <h3 class="font-bold text-lg mb-4">Follow Us</h3>
+                            <div class="flex space-x-4">
+                                <a href="#" class="bg-gray-100 hover:bg-gray-200 p-3 rounded-full text-gray-700 transition duration-300">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="bg-gray-100 hover:bg-gray-200 p-3 rounded-full text-gray-700 transition duration-300">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="bg-gray-100 hover:bg-gray-200 p-3 rounded-full text-gray-700 transition duration-300">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="bg-gray-100 hover:bg-gray-200 p-3 rounded-full text-gray-700 transition duration-300">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-16 bg-white rounded-xl shadow-lg overflow-hidden">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.215381386768!2d-73.9878449245388!3d40.75798597138941!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1689870223602!5m2!1sen!2sus" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <a href="#" class="flex items-center mb-4" onclick="showPage('home')">
+                        <i class="fas fa-hotel text-amber-500 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold">Moonlight Hotel Booking </span>
+                    </a>
+                    <p class="text-gray-400">
+                        Experience unparalleled luxury and service at our award-winning hotel in the heart of the city.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500 transition duration-300" onclick="showPage('home')">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500 transition duration-300" onclick="showPage('booking')">Rooms & Suites</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500 transition duration-300" onclick="showPage('booking')">Special Offers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500 transition duration-300" onclick="showPage('contact')">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contact Info</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2 text-amber-500"></i>
+                            <span>Dasma Avenue, Cavite City</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-2 text-amber-500"></i>
+                            <span>+63 (915) 365-7985</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-2 text-amber-500"></i>
+                            <span>MoonlightHotelBooking@GMAIL.COM</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">
+                        Subscribe to our newsletter for exclusive offers and updates.
+                    </p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 w-full rounded-l-md focus:outline-none text-gray-800">
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-r-md transition duration-300">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">
+                    &copy; 2025 Moonlight Hotel Booking. All rights reserved.
+                </p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-amber-500 transition duration-300">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-amber-500 transition duration-300">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-amber-500 transition duration-300">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-amber-500 transition duration-300">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Show the home page by default
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('home');
+            
+            // Set today's date as default for check-in
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('check-in').value = today;
+            
+            // Set tomorrow's date as default for check-out
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('check-out').value = tomorrow.toISOString().split('T')[0];
+            
+            // Highlight active nav link
+            highlightActiveNav();
+        });
+        
+        // Page navigation function
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+                page.classList.remove('fade-in');
+            });
+            
+            // Show selected page
+            const pageToShow = document.getElementById(pageId);
+            pageToShow.classList.remove('hidden');
+            setTimeout(() => {
+                pageToShow.classList.add('fade-in');
+            }, 10);
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Highlight active nav link
+            highlightActiveNav();
+        }
+        
+        // Highlight active navigation link
+        function highlightActiveNav() {
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active-nav');
+            });
+            
+            // Add active class to current nav link (simplified for this demo)
+            // In a real app, you would determine which page is active
+        }
+        
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+        
+        // Form submission handlers
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your booking request! Our team will contact you shortly to confirm your reservation.');
+            this.reset();
+        });
+        
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you as soon as possible.');
+            this.reset();
+        }
+        
+);
+    </script>
+   <script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+  import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+  import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCJhR3gN-2NIDEdSO-GMkwEl3OlF1iNPgA",
+    authDomain: "hotelulu-12fe1.firebaseapp.com",
+    projectId: "hotelulu-12fe1",
+    storageBucket: "hotelulu-12fe1.firebasestorage.app",
+    messagingSenderId: "552939216628",
+    appId: "1:552939216628:web:b7a90b570ecd94b26608a1",
+    measurementId: "G-K1F4PGZN8F"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Handle logout buttons
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      loginBtn.style.display = 'none';
+      logoutBtn.classList.remove('hidden');
+    } else {
+      loginBtn.style.display = 'inline-block';
+      logoutBtn.classList.add('hidden');
+    }
+  });
+
+  logoutBtn.addEventListener('click', () => {
+    signOut(auth).then(() => {
+      window.location.href = 'index.html';
+    }).catch((error) => {
+      alert("Logout failed: " + error.message);
+    });
+  });
+
+  // Handle Booking Form
+  const bookingForm = document.getElementById('booking-form');
+  bookingForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const checkIn = document.getElementById('check-in').value;
+    const checkOut = document.getElementById('check-out').value;
+    const adults = document.getElementById('adults').value;
+    const children = document.getElementById('children').value;
+    const roomType = document.getElementById('room-type').value;
+    const requests = document.getElementById('special-requests').value;
+
+   const user = auth.currentUser;
+if (!user) {
+  alert("You must be logged in to book a room.");
+  return;
+}
+
+try {
+  await addDoc(collection(db, 'bookings'), {
+    userId: user.uid,                
+    email: user.email,            
+    checkIn,                       
+    checkOut,
+    adults: parseInt(adults),
+    children: parseInt(children),
+    roomType,
+    specialRequests: requests,
+    createdAt: serverTimestamp()    
+  });
+
+      alert("Your booking has been submitted successfully!");
+      bookingForm.reset();
+    } catch (error) {
+      console.error("Booking error:", error);
+      alert("Failed to submit booking. Please try again.");
+    }
+  });
+</script>
+
+
+
+</body>
+
+</html>
